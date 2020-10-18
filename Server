@@ -1,0 +1,31 @@
+#Server.py
+
+import socket
+import time
+
+def main():
+#first parameter is the family type, and the second parameter is the type of socket
+#AF_INET, corresponds to IPv4, and SOCK_STREAM corresponds to TCP
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+#hostname is the server, which will be our machine
+    s.bind(('0.0.0.0', 1234))
+
+#server listening
+    s.listen(1)
+    message = "Welcome to the server"
+#address is ip address
+#clientsocket is another client socket, I guess, nice to validate that this is the source
+#that I'm looking for
+    for i in range(len(message)):
+        clientsocket, address= s.accept()
+        print("Connection from ", address, " has been established!")
+
+        clientsocket.send(bytes(message[i], "ascii"))
+
+    clientsocket.send(bytes('/', "ascii"))
+    s.close()
+    
+main()
+
+#success run
